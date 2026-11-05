@@ -1,0 +1,26 @@
+# iEEG BrainSense App — RUNTIME dependencies
+# Last Updated: 2026-06-03
+#
+# Runtime-only: everything the packaged standalone app (main.py + src/) imports,
+# directly or transitively. This is what the PyInstaller bundle needs.
+#   pip install -r requirements.txt
+# For development / testing / notebooks / research scripts, use requirements-dev.txt.
+
+# ── GUI framework ────────────────────────────────────────────────────────────
+PySide6>=6.8                 # QStyleHints.setColorScheme (Qt 6.8; app_bootstrap.py); tested with 6.9.2
+qtawesome>=1.2.0             # Icon fonts (src/ui/icons.py, greyscale_proxy_style.py)
+
+# ── Scientific computing & visualization ─────────────────────────────────────
+numpy>=1.24.0
+scipy>=1.10.0
+matplotlib>=3.7.0
+Pillow>=9.5.0               # Required by matplotlib for PNG plot export
+pandas>=2.0.0              # Imported transitively by scikit-learn at import time
+pytz>=2023.3              # Imported transitively by pandas
+
+# ── Machine learning (vendored threshold pipeline: src/core/analysis/threshold) ─
+scikit-learn>=1.3.0
+joblib>=1.3.0              # Parallel/delayed in the vendored bulletproof_threshold
+
+# ── Dependency injection ─────────────────────────────────────────────────────
+dependency-injector>=4.48.2

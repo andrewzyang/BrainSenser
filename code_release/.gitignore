@@ -1,0 +1,14 @@
+# Reviewer outputs (created by demo.sh)
+out/
+
+# Working-validation artifacts (Stage A / Stage B)
+stage_a_out/
+stage_b_out/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+.python-version

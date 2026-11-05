@@ -1,0 +1,4 @@
+# Sweep-cell ratchet: one profile/viewport/page/state/invariant per line that
+# fails on a clean tree (see tests/ui/responsive/ratchet.py). Regenerate with
+#   python tools/responsive_sweep.py --out <dir outside the checkout>
+# and copy <dir>/failing_cells.txt over this file.

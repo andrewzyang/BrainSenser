@@ -1,0 +1,55 @@
+# Known test failures: the suite's ratchet, applied by tests/_plugins/known_failures.py.
+#
+# One exact pytest node ID per line; "#" starts a comment. A listed test that
+# fails is reported as xfail; once it passes, the run prints "FIXED — delete
+# this line". An unlisted failure fails the run: fix it, don't list it.
+# Platform-only failures go in tests/known_failures.<sys.platform>.txt, and
+# --no-known-failures shows the raw results.
+#
+# Baseline: 33 failed + 7 errors at dcb89ba (Darwin 24.6, py3.13, PySide6 6.9.2,
+# matplotlib 3.10.0, offscreen), per notes/responsive_ui_v2_audit/09_verification.md
+# §3.8. The 7 tests/ui/widgets/test_trim_control_panel.py errors are not listed:
+# that file goes with its unused widget (plan D12).
+
+# MVVM substring scans; tests/architecture/test_mvvm_ratchet.py pins their exact
+# violations, so a new one still fails there.
+tests/architecture/test_mvvm_architecture.py::TestCoreLayerPurity::test_core_has_no_qt_imports
+tests/architecture/test_mvvm_architecture.py::TestCoreLayerPurity::test_core_services_are_pure_python
+tests/architecture/test_mvvm_architecture.py::TestViewLayer::test_views_dont_import_services_directly
+
+# Core services.
+tests/core/services/test_patient_service.py::test_get_patient_count_all
+tests/core/services/test_patient_service.py::test_full_patient_lifecycle
+tests/core/services/test_statistics_service.py::test_get_all_patient_statistics_includes_inactive
+tests/core/services/test_statistics_service.py::test_get_system_statistics_with_inactive
+tests/core/services/test_upload_service.py::test_upload_snapshot_file_success
+tests/unit/core/services/test_bootstrap_statistics.py::TestBootstrapStatistics::test_initialization_defaults
+# Fails in any order: it expects "scipy is required for filters", which nothing raises.
+tests/core/services/test_streaming_service.py::test_apply_filters_scipy_missing_raises_error
+
+# Patient schema: expects 4 tables / 14 indexes; the schema has 9 / 22.
+tests/infrastructure/database/schema/test_patient_schema.py::TestPatientSchemaSQL::test_schema_contains_strict_mode
+tests/infrastructure/database/schema/test_patient_schema.py::TestPatientSchemaSQL::test_get_table_names_returns_list
+tests/infrastructure/database/schema/test_patient_schema.py::TestPatientSchemaSQL::test_get_index_names_returns_list
+tests/infrastructure/database/schema/test_patient_schema.py::TestPatientSchemaCreation::test_schema_is_idempotent
+tests/infrastructure/database/schema/test_patient_schema.py::TestProcessingMetadataTable::test_processing_metadata_structure
+
+# Integration. The three PSD tests assert right after starting an asynchronous worker.
+tests/integration/test_snapshots_psd_workflow.py::TestSnapshotsPsdWorkflow::test_viewmodel_populates_results
+tests/integration/test_snapshots_psd_workflow.py::TestSnapshotsPsdWorkflow::test_ui_table_population
+tests/integration/test_snapshots_psd_workflow.py::TestSnapshotsPsdWorkflow::test_ui_table_updates_with_timeline_band
+
+# Stale 300/150-dpi expectations; the coordinator exports at 200 dpi.
+tests/ui/export/test_plot_export_coordinator.py::test_png_default_dpi
+tests/ui/export/test_plot_export_coordinator.py::test_pdf_default_dpi
+tests/ui/export/test_plot_export_coordinator.py::test_post_render_called_after_success
+
+[tolerated]
+# Flaky: either outcome is fine, and a pass is never reported FIXED.
+
+# Unseeded np.random data: a Benjamini-Hochberg q-value can round one ULP below its p-value.
+tests/integration/test_snapshots_psd_workflow.py::TestSnapshotsPsdWorkflow::test_statistical_analysis_low_frequency_bands
+
+# Not listed: the "6 flaky" tests/ui/viewmodels/test_effect_size_preference.py
+# failures of older notes. They never reproduce (31/31 pass, alone and in the
+# full suite) now that tests/conftest.py isolates preferences per test.

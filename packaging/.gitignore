@@ -1,0 +1,17 @@
+# PyInstaller build artifacts
+build/
+dist/
+*.spec.bak
+
+# Packaging artifacts
+*.dmg
+*.zip
+*.pkg
+
+# Code signing artifacts
+*.provisionprofile
+entitlements.plist
+
+# macOS artifacts
+.DS_Store
+*.icns.bak

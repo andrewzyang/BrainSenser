@@ -1,0 +1,93 @@
+# Known failures on Windows only: tests/_plugins/known_failures.py adds this
+# list when sys.platform is win32. Seeded from the first Windows CI run
+# (2026-11-05, windows-latest, Python 3.13, PySide6 6.9.2, offscreen). Format
+# and rules as in tests/known_failures.txt.
+#
+# None of these is an app failure: the frozen app starts, and the CI launch
+# test screenshots its window. They come from test machinery built on macOS.
+
+# The responsive MVVM child-process sandbox. Windows keeps its temp folder inside
+# the user's home (AppData\Local\Temp), so tests/ui/responsive/_safety.py
+# correctly refuses the sandbox ("isolation violated: MPLCONFIGDIR ... is inside
+# the real home").
+tests/architecture/test_responsive_mvvm.py::test_children_run_in_the_sandbox
+tests/architecture/test_responsive_mvvm.py::test_existing_viewmodels_keep_their_poisoned_load_status
+tests/architecture/test_responsive_mvvm.py::test_new_viewmodels_load_by_path_and_run_with_qt_gui_blocked
+tests/architecture/test_responsive_mvvm.py::test_poison_harness_negative_controls[all-from PySide6.QtCore import QObject\n-PySide6]
+tests/architecture/test_responsive_mvvm.py::test_poison_harness_negative_controls[gui-from PySide6 import QtCore\nQtCore.QSettings.Format\n-PySide6.QtCore.QSettings]
+tests/architecture/test_responsive_mvvm.py::test_poison_harness_negative_controls[gui-from PySide6 import QtGui\n-PySide6.QtGui]
+tests/architecture/test_responsive_mvvm.py::test_poison_harness_negative_controls[gui-from PySide6.QtCore import QProcess\nQProcess.startDetached('/usr/bin/true', [])\n-PySide6.QtCore.QProcess]
+tests/architecture/test_responsive_mvvm.py::test_poison_harness_negative_controls[gui-from PySide6.QtCore import QSettings\nQSettings('blocker-probe', 'never-written')\n-PySide6.QtCore.QSettings]
+tests/architecture/test_responsive_mvvm.py::test_poison_harness_negative_controls[gui-import PySide6.QtWidgets\n-PySide6.QtWidgets]
+tests/architecture/test_responsive_mvvm.py::test_pure_modules_import_with_all_qt_blocked
+
+# Children started with Qt's offscreen platform and a simulated screen layout
+# (offscreen:configfile=...) exit with 0xC0000409 before writing a result.
+tests/ui/components/test_dialog_fit.py::test_forty_lines_fit_a_576_px_screen
+tests/ui/shell/test_screen_watcher.py::test_moving_to_another_screen_is_reported_once
+tests/ui/shell/test_window_placement_screens.py::test_floor_before_the_first_show_leaves_room_for_a_title_bar[air15_200]
+tests/ui/shell/test_window_placement_screens.py::test_floor_before_the_first_show_leaves_room_for_a_title_bar[mac_air15]
+tests/ui/shell/test_window_placement_screens.py::test_floor_before_the_first_show_leaves_room_for_a_title_bar[mac_larger_text]
+tests/ui/shell/test_window_placement_screens.py::test_floor_before_the_first_show_leaves_room_for_a_title_bar[mixed]
+tests/ui/shell/test_window_placement_screens.py::test_floor_before_the_first_show_leaves_room_for_a_title_bar[pointer]
+tests/ui/shell/test_window_placement_screens.py::test_floor_before_the_first_show_leaves_room_for_a_title_bar[small_second]
+tests/ui/shell/test_window_placement_screens.py::test_floor_before_the_first_show_leaves_room_for_a_title_bar[tiny]
+tests/ui/shell/test_window_placement_screens.py::test_floor_before_the_first_show_leaves_room_for_a_title_bar[uhd100]
+tests/ui/shell/test_window_placement_screens.py::test_floor_before_the_first_show_leaves_room_for_a_title_bar[ultrawide]
+tests/ui/shell/test_window_placement_screens.py::test_floor_before_the_first_show_leaves_room_for_a_title_bar[wayland]
+tests/ui/shell/test_window_placement_screens.py::test_floor_before_the_first_show_leaves_room_for_a_title_bar[win125]
+tests/ui/shell/test_window_placement_screens.py::test_floor_before_the_first_show_leaves_room_for_a_title_bar[win150]
+tests/ui/shell/test_window_placement_screens.py::test_floor_before_the_first_show_leaves_room_for_a_title_bar[win175]
+tests/ui/shell/test_window_placement_screens.py::test_floor_before_the_first_show_leaves_room_for_a_title_bar[win200]
+tests/ui/shell/test_window_placement_screens.py::test_floor_clamps_to_a_screen_smaller_than_600x500
+tests/ui/shell/test_window_placement_screens.py::test_floor_follows_the_window_to_another_screen
+tests/ui/shell/test_window_placement_screens.py::test_floor_is_reapplied_when_the_available_area_changes
+tests/ui/shell/test_window_placement_screens.py::test_floor_keeps_the_title_bar_estimate_where_no_frame_is_reported
+tests/ui/shell/test_window_placement_screens.py::test_launch_screen_is_the_screen_under_the_pointer
+tests/ui/shell/test_window_placement_screens.py::test_on_wayland_the_window_is_sized_not_positioned
+tests/ui/shell/test_window_placement_screens.py::test_splash_covers_the_launch_screen
+tests/ui/shell/test_window_placement_screens.py::test_wide_screens_get_a_centred_window
+tests/ui/shell/test_window_placement_screens.py::test_window_opens_on_the_launch_screen_within_its_floor[mac_air15]
+tests/ui/shell/test_window_placement_screens.py::test_window_opens_on_the_launch_screen_within_its_floor[mac_larger_text]
+tests/ui/shell/test_window_placement_screens.py::test_window_opens_on_the_launch_screen_within_its_floor[mixed]
+tests/ui/shell/test_window_placement_screens.py::test_window_opens_on_the_launch_screen_within_its_floor[pointer]
+tests/ui/shell/test_window_placement_screens.py::test_window_opens_on_the_launch_screen_within_its_floor[small_second]
+tests/ui/shell/test_window_placement_screens.py::test_window_opens_on_the_launch_screen_within_its_floor[tiny]
+tests/ui/shell/test_window_placement_screens.py::test_window_opens_on_the_launch_screen_within_its_floor[uhd100]
+tests/ui/shell/test_window_placement_screens.py::test_window_opens_on_the_launch_screen_within_its_floor[ultrawide]
+tests/ui/shell/test_window_placement_screens.py::test_window_opens_on_the_launch_screen_within_its_floor[wayland]
+tests/ui/shell/test_window_placement_screens.py::test_window_opens_on_the_launch_screen_within_its_floor[win125]
+tests/ui/shell/test_window_placement_screens.py::test_window_opens_on_the_launch_screen_within_its_floor[win150]
+tests/ui/shell/test_window_placement_screens.py::test_window_opens_on_the_launch_screen_within_its_floor[win175]
+tests/ui/shell/test_window_placement_screens.py::test_window_opens_on_the_launch_screen_within_its_floor[win200]
+tests/ui/shell/test_window_restore.py::test_first_launch_placement_when_the_memento_does_not_fit[T1]
+tests/ui/shell/test_window_restore.py::test_first_launch_placement_when_the_memento_does_not_fit[T2]
+tests/ui/shell/test_window_restore.py::test_first_launch_placement_when_the_memento_does_not_fit[T3]
+tests/ui/shell/test_window_restore.py::test_first_launch_placement_when_the_memento_does_not_fit[T6]
+tests/ui/shell/test_window_restore.py::test_launch_screen_and_memento[T1-a_laptop-False]
+tests/ui/shell/test_window_restore.py::test_launch_screen_and_memento[T2-b_monitor-False]
+tests/ui/shell/test_window_restore.py::test_launch_screen_and_memento[T3-a_laptop-True]
+tests/ui/shell/test_window_restore.py::test_launch_screen_and_memento[T4-b_monitor-True]
+tests/ui/shell/test_window_restore.py::test_launch_screen_and_memento[T5-b_monitor-True]
+tests/ui/shell/test_window_restore.py::test_launch_screen_and_memento[T6-a_laptop-True]
+tests/ui/shell/test_window_restore.py::test_launch_screen_and_memento[T7-a_laptop-True]
+tests/ui/shell/test_window_restore.py::test_launch_screen_and_memento[T8-b_monitor-True]
+tests/ui/shell/test_window_restore.py::test_maximised_window_reopens_maximised
+tests/ui/shell/test_window_restore.py::test_rearranged_displays_restore_onto_the_same_monitor[T4]
+tests/ui/shell/test_window_restore.py::test_rearranged_displays_restore_onto_the_same_monitor[T8]
+tests/ui/shell/test_window_restore.py::test_unchanged_displays_restore_exactly
+tests/ui/shell/test_window_restore.py::test_window_opens_fully_on_its_launch_screen[T1]
+tests/ui/shell/test_window_restore.py::test_window_opens_fully_on_its_launch_screen[T2]
+tests/ui/shell/test_window_restore.py::test_window_opens_fully_on_its_launch_screen[T3]
+tests/ui/shell/test_window_restore.py::test_window_opens_fully_on_its_launch_screen[T4]
+tests/ui/shell/test_window_restore.py::test_window_opens_fully_on_its_launch_screen[T5]
+tests/ui/shell/test_window_restore.py::test_window_opens_fully_on_its_launch_screen[T6]
+tests/ui/shell/test_window_restore.py::test_window_opens_fully_on_its_launch_screen[T7]
+tests/ui/shell/test_window_restore.py::test_window_opens_fully_on_its_launch_screen[T8]
+tests/unit/test_main_launch_display.py::test_undocked_laptop_two_processes
+tests/unit/test_main_shell_wiring.py::test_the_first_frame_has_the_maximised_sizes_classes
+
+# Pixel-exact layout checks recorded with macOS font metrics: on Windows a list
+# row is a pixel taller and the reflowed page needs no scroll bar at 260 px.
+tests/ui/components/test_grouping_panel_arrangement.py::TestGroupLists::test_group_lists_show_whole_rows_at_the_panel_minimum[SnapshotsGroupingPanel]
+tests/ui/widgets/test_equal_columns_layout.py::TestInResizableScrollArea::test_content_height_follows_the_reflowed_height

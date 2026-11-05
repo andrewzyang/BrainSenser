@@ -1,0 +1,161 @@
+# Windows build of BrainSenser, plus the test suite on Windows.
+#
+# The macOS installers are built locally (packaging/REEXPORT.md). This builds the
+# Windows zip from the same pinned versions, checks that it starts, and on a
+# v* tag attaches it, with the FFmpeg source the LGPL asks for, to a draft
+# release. Run it by hand from the Actions tab, or push a tag.
+name: Release builds
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write   # attach files to the draft release on tags
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'   # the notices generator ships Python 3.13's licence texts
+
+      - name: Install the pinned build environment
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r packaging/requirements-build.txt
+
+      - name: Third-party notices for what this build bundles
+        run: |
+          python packaging/generate_third_party_notices.py
+          if (-not (Select-String -Path THIRD_PARTY_NOTICES.txt -Pattern '^- FFmpeg ' -Quiet)) { throw 'No FFmpeg line in the notices' }
+
+      - name: Build
+        run: python -m PyInstaller packaging/brainsenser.spec --clean --noconfirm
+
+      - name: Check the bundle
+        run: |
+          $app = (Resolve-Path dist/BrainSenser).Path
+          if (-not (Test-Path "$app/BrainSenser.exe")) { throw 'BrainSenser.exe is missing' }
+          $unwanted = Get-ChildItem -Recurse -File $app |
+            Where-Object { $_.Name -match 'WebEngine|Qt6Pdf|qpdf|VirtualKeyboard|Qt6Charts|Qt6Quick|Qt6Qml|Qt6Test|opengl32sw' }
+          if ($unwanted) { $unwanted.FullName; throw 'Unwanted Qt files in the bundle' }
+          # Unzipped under Downloads, paths must stay well below Windows' 260-character limit.
+          $prefix = 'BrainSenser-0.0.0-windows-x64\BrainSenser'
+          $long = Get-ChildItem -Recurse -File $app |
+            Where-Object { ($prefix + $_.FullName.Substring($app.Length)).Length -gt 150 }
+          if ($long) { $long.FullName; throw 'Paths longer than 150 characters inside the zip' }
+          "{0:N0} MB" -f ((Get-ChildItem -Recurse -File $app | Measure-Object Length -Sum).Sum / 1MB)
+
+      - name: Launch test (throwaway data folder)
+        run: |
+          New-Item -ItemType Directory -Force smoke | Out-Null
+          $data = Join-Path $env:RUNNER_TEMP 'bsdata'
+          $env:BRAINSENSER_DATA_DIR = $data
+          $log = Join-Path $data 'logs/brainsenser.log'
+          $app = Start-Process -FilePath dist/BrainSenser/BrainSenser.exe -PassThru
+          $clock = [Diagnostics.Stopwatch]::StartNew()
+          $started = $false
+          while ($clock.Elapsed.TotalSeconds -lt 180 -and -not $started) {
+            Start-Sleep -Seconds 3
+            $started = (Test-Path $log) -and (Select-String -Path $log -Pattern 'Application started' -Quiet)
+          }
+          Start-Sleep -Seconds 5   # let the window paint before the screenshot
+          Add-Type -AssemblyName System.Windows.Forms, System.Drawing
+          $screen = [System.Windows.Forms.Screen]::PrimaryScreen.Bounds
+          $shot = New-Object System.Drawing.Bitmap $screen.Width, $screen.Height
+          [System.Drawing.Graphics]::FromImage($shot).CopyFromScreen($screen.Location, [System.Drawing.Point]::Empty, $screen.Size)
+          $shot.Save((Join-Path (Resolve-Path smoke) 'screenshot.png'))
+          Stop-Process -Id $app.Id -Force -ErrorAction SilentlyContinue
+          if (Test-Path $log) { Copy-Item $log smoke/brainsenser.log }
+          "started: $started after $([int]$clock.Elapsed.TotalSeconds) s" | Tee-Object smoke/startup.txt
+          if (-not $started) { throw 'BrainSenser did not log "Application started" within 180 s' }
+          Select-String -Path $log -Pattern 'DpiAwareness' | ForEach-Object { "DPI note: $($_.Line)" }
+          $errors = Select-String -Path $log -Pattern 'Traceback|ModuleNotFoundError|ImportError'
+          if ($errors) { $errors; throw 'Errors in the log' }
+
+      - name: Launch test (default data folder, %LOCALAPPDATA%\BrainSenser)
+        run: |
+          $log = Join-Path $env:LOCALAPPDATA 'BrainSenser/logs/brainsenser.log'
+          $app = Start-Process -FilePath dist/BrainSenser/BrainSenser.exe -PassThru
+          $clock = [Diagnostics.Stopwatch]::StartNew()
+          $started = $false
+          while ($clock.Elapsed.TotalSeconds -lt 180 -and -not $started) {
+            Start-Sleep -Seconds 3
+            $started = (Test-Path $log) -and (Select-String -Path $log -Pattern 'Application started' -Quiet)
+          }
+          Stop-Process -Id $app.Id -Force -ErrorAction SilentlyContinue
+          if (-not $started) { throw "No 'Application started' in $log" }
+          "second launch: $([int]$clock.Elapsed.TotalSeconds) s" | Tee-Object -Append smoke/startup.txt
+
+      - name: FFmpeg source and build notes
+        run: |
+          python packaging/fetch_ffmpeg_source.py release-files
+          Get-ChildItem release-files/*-build.txt | Rename-Item -NewName { $_.Name -replace '-build\.txt$', '-build-windows.txt' }
+
+      - name: Zip
+        run: |
+          $version = (Select-String -Path packaging/brainsenser.spec -Pattern "^VERSION = '([0-9.]+)'").Matches[0].Groups[1].Value
+          $name = "BrainSenser-$version-windows-x64"
+          New-Item -ItemType Directory $name | Out-Null
+          Copy-Item -Recurse dist/BrainSenser "$name/BrainSenser"
+          Copy-Item LICENSE "$name/LICENSE.txt"
+          Copy-Item THIRD_PARTY_NOTICES.txt, HOW_TO_OPEN.txt $name
+          Compress-Archive -Path $name -DestinationPath "release-files/$name.zip"
+          Get-ChildItem release-files
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-build
+          path: release-files/
+          retention-days: 14
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: windows-launch-test
+          path: smoke/
+
+      - name: Attach to the draft release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          files: release-files/*
+
+  windows-tests:
+    runs-on: windows-latest
+    timeout-minutes: 60
+    env:
+      QT_QPA_PLATFORM: offscreen
+      QT_QPA_FONTDIR: C:\Windows\Fonts   # Qt's offscreen platform finds no fonts on Windows otherwise
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r packaging/requirements-build.txt pytest==8.3.4 pytest-qt==4.5.0 pytest-timeout==2.4.0 pytest-cov==7.0.0 pytest-mock==3.15.1
+
+      # Layout invariants and goldens are recorded on macOS; everything else runs.
+      # Failures specific to Windows go in tests/known_failures.win32.txt.
+      - name: Test
+        run: python -m pytest -o addopts="" -q -ra -m "not responsive and not golden" --timeout=900 --junitxml=junit-windows.xml
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: windows-test-results
+          path: junit-windows.xml

@@ -1,0 +1,83 @@
+cff-version: 1.2.0
+title: BrainSenser
+message: >-
+  If you use BrainSenser, please cite the accompanying paper and this
+  software.
+type: software
+authors:
+  - given-names: Drew
+    family-names: Yang
+  - given-names: Clement
+    family-names: Hamani
+    orcid: "https://orcid.org/0000-0002-7586-2487"
+  - given-names: Victor
+    family-names: Tang
+    orcid: "https://orcid.org/0000-0001-5365-9683"
+  - given-names: James
+    family-names: MacKillop
+    orcid: "https://orcid.org/0000-0002-8695-1071"
+  - given-names: Srdjan
+    family-names: Sumarac
+    orcid: "https://orcid.org/0000-0002-3840-5957"
+  - given-names: Luis Antonio
+    family-names: Franco Vergara
+    orcid: "https://orcid.org/0009-0004-1786-2886"
+  - given-names: Jaana
+    family-names: Leppala
+  - given-names: Frederick
+    family-names: Zhang
+  - given-names: Leonardo
+    family-names: Favi Bocca
+    orcid: "https://orcid.org/0000-0003-4809-0159"
+  - given-names: Anusha
+    family-names: Baskaran
+  - given-names: Tristan
+    family-names: Lawson
+  - given-names: Shysta
+    family-names: Sehgal
+    orcid: "https://orcid.org/0009-0006-4283-8030"
+  - given-names: Alexandre
+    family-names: Boutet
+    orcid: "https://orcid.org/0000-0001-6942-5195"
+  - given-names: Suneil K.
+    family-names: Kalia
+    orcid: "https://orcid.org/0000-0003-2054-1915"
+  - given-names: Peter
+    family-names: Giacobbe
+    orcid: "https://orcid.org/0000-0001-6642-6221"
+  - given-names: Sean
+    family-names: Nestor
+    orcid: "https://orcid.org/0000-0002-8848-5027"
+  - given-names: Andres M.
+    family-names: Lozano
+    orcid: "https://orcid.org/0000-0001-8257-3694"
+  - given-names: Luka
+    family-names: Milosevic
+    orcid: "https://orcid.org/0000-0002-4051-5397"
+  - given-names: Taufik
+    family-names: Valiante
+    orcid: "https://orcid.org/0000-0002-3443-3790"
+  - given-names: Nir
+    family-names: Lipsman
+    orcid: "https://orcid.org/0000-0002-4820-3056"
+  - given-names: Benjamin
+    family-names: Davidson
+    orcid: "https://orcid.org/0000-0001-5264-1190"
+license: MIT
+repository-code: "https://github.com/andrewzyang/BrainSenser"
+version: "1.0.0"
+date-released: "2026-11-05"
+keywords:
+  - deep brain stimulation
+  - local field potential
+  - Medtronic Percept
+  - BrainSense
+  - nucleus accumbens
+  - craving
+abstract: >-
+  Desktop application for analysing BrainSense Snapshot spectra and Timeline
+  LFP recordings from Medtronic Percept devices around patient-marked events,
+  with the paper's canonical-band statistics, leave-one-out frequency-band
+  classifier, cluster-based permutation test and amplitude-threshold
+  classifier. Includes the standalone scripts that reproduce the paper's
+  statistics.

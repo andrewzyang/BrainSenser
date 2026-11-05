@@ -1,0 +1,42 @@
+BrainSenser - how to open it
+============================
+
+BrainSenser isn't code-signed yet, so macOS and Windows warn you the first
+time you open it. That's expected; here is how to get past it.
+
+MACOS (14 Sonoma or later)
+  Which file: Apple menu > About This Mac.
+    "Chip: Apple M..."     -> BrainSenser-<version>-silicon.dmg
+    "Processor: Intel..."  -> BrainSenser-<version>-intel.dmg
+
+  1. Double-click the .dmg and drag BrainSenser onto Applications.
+  2. Open BrainSenser from Applications. macOS blocks it the first time.
+  3. Go to System Settings > Privacy & Security, scroll down, and click
+     "Open Anyway" next to the BrainSenser message. Confirm.
+  Or, instead of steps 2-3, run this once in Terminal:
+     xattr -dr com.apple.quarantine /Applications/BrainSenser.app
+
+WINDOWS (10 or 11, 64-bit)
+  1. Right-click the zip > Extract All. Keep the whole BrainSenser folder
+     together; the app needs everything in it. A short path such as
+     Documents\BrainSenser works best.
+  2. Open BrainSenser\BrainSenser.exe.
+  3. If "Windows protected your PC" appears, click "More info", then
+     "Run anyway".
+  If Windows says the app was blocked by Smart App Control, it can't run on
+  that PC until BrainSenser is code-signed.
+
+FIRST LAUNCH
+  The first start can take up to a minute while the plotting library builds
+  its font cache. Later starts are faster.
+
+YOUR DATA
+  BrainSenser ships with no patient data. What you import stays on your
+  computer:
+    macOS:   ~/Library/Application Support/BrainSenser
+    Windows: %LOCALAPPDATA%\BrainSenser
+  Updating the app never deletes it. To remove it, delete that folder.
+
+LICENSES
+  LICENSE.txt (BrainSenser, MIT) and THIRD_PARTY_NOTICES.txt (everything the
+  app bundles) are next to this file.

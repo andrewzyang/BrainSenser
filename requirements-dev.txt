@@ -1,0 +1,42 @@
+# iEEG BrainSense App — DEVELOPMENT dependencies
+# Last Updated: 2026-06-03
+#
+# Superset of the runtime set: app runtime + testing + linting + notebooks +
+# the research-only analysis libs used by scripts/, results/, and research/.
+# Use this for working in the repo:
+#   pip install -r requirements-dev.txt
+
+-r requirements.txt
+
+# ── Testing ──────────────────────────────────────────────────────────────────
+pytest>=7.4.0
+pytest-cov>=4.1.0           # Code coverage reports
+pytest-qt>=4.2.0            # PySide6/Qt testing support
+pytest-mock>=3.11.0         # Mocking utilities
+pytest-timeout>=2.1.0       # Per-test hang guard (timeout in pytest.ini)
+
+# ── Code quality ─────────────────────────────────────────────────────────────
+pylint>=2.17.0              # Static analysis
+mypy>=1.4.0                 # Type checking
+black>=23.3.0              # Formatting
+isort>=5.12.0             # Import sorting
+flake8>=6.0.0            # Style enforcement
+
+# ── Interactive / notebooks ──────────────────────────────────────────────────
+ipython>=8.12.0
+ipdb>=0.13.13
+jupyter>=1.0.0
+jupyterlab>=4.0.0
+ipykernel>=6.20.0
+
+# ── Research-only analysis libs ──────────────────────────────────────────────
+# Used by scripts/, results/, research/ (manuscript analysis) — NOT by the app
+# in src/, so deliberately kept out of the runtime bundle (requirements.txt).
+seaborn>=0.12.0
+statsmodels>=0.14.0
+pyqtgraph>=0.13.3
+EntropyHub>=2.0
+specparam>=1.0.0           # FOOOF spectral parameterization
+
+# ── Optional: Deep Learning (large download — uncomment if needed) ───────────
+# torch>=2.0.0

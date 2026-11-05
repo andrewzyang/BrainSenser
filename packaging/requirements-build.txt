@@ -1,0 +1,46 @@
+# Exact versions for release builds on macOS and Windows (REEXPORT.md and
+# .github/workflows/release.yml install from this file). The runtime packages
+# are the versions BrainSenser was developed and tested with; their
+# dependencies are pinned too, so every platform bundles the same code.
+# For development, requirements.txt (lower bounds) is enough.
+
+# Runtime
+PySide6==6.9.2
+PySide6_Addons==6.9.2
+PySide6_Essentials==6.9.2
+shiboken6==6.9.2
+QtAwesome==1.4.0
+QtPy==2.4.1
+numpy==2.1.3
+scipy==1.15.3
+matplotlib==3.10.0
+pillow==11.1.0
+pandas==2.2.3
+pytz==2024.1
+scikit-learn==1.6.1
+joblib==1.4.2
+dependency-injector==4.48.2
+
+# Their dependencies
+contourpy==1.3.1
+cycler==0.11.0
+fonttools==4.55.3
+kiwisolver==1.4.8
+packaging==24.2
+pyparsing==3.2.0
+python-dateutil==2.9.0.post0
+six==1.17.0
+threadpoolctl==3.5.0
+tzdata==2025.2
+
+# Build tools
+pyinstaller==6.22.3
+pyinstaller-hooks-contrib==2026.9
+setuptools==84.2.1
+altgraph==0.17.5
+macholib==1.16.4; sys_platform == "darwin"
+dmgbuild==1.6.7; sys_platform == "darwin"
+ds_store==1.3.3; sys_platform == "darwin"
+mac_alias==2.2.3; sys_platform == "darwin"
+pefile==2024.8.26; sys_platform == "win32"
+pywin32-ctypes==0.2.3; sys_platform == "win32"

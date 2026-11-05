@@ -1,0 +1,6 @@
+# LF everywhere: test goldens are compared byte for byte, and shell scripts
+# break with CRLF. Binary assets are left alone.
+* text=auto eol=lf
+*.png binary
+*.icns binary
+*.mp4 binary

@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage*
+htmlcov/
+.mypy_cache/
+
+# Builds
+build/
+dist/
+
+# Patient data must never be committed: app data folders, databases and
+# exports. Only the synthetic test fixtures and test goldens are tracked.
+.brainsense_data/
+data/
+code_release/data/
+code_release/out/
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+*.csv
+*.xlsx
+*.json
+!tests/fixtures/*.json
+!tests/**/goldens/**/*.json
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
