@@ -5,9 +5,9 @@
   </picture>
 </h1>
 
-BrainSenser is a desktop app for analysing recordings from Medtronic Percept
-deep brain stimulation devices: BrainSense **Snapshots** (spectra captured when
-a patient marks an event) and the BrainSense **Timeline** (the chronic
+BrainSenser is a desktop app for accessibly analysing BrainSense recordings
+from Medtronic Percept deep brain stimulation devices: **Snapshots** (spectra
+captured when a patient marks an event) and the **Timeline** (the chronic
 narrowband LFP log). It compares spectra and LFP amplitude between groups of
 patient-marked events (for example, craving vs. non-craving) with the analyses
 described in our paper (the citation will be added on publication): canonical
