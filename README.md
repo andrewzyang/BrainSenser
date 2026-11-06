@@ -71,8 +71,8 @@ the exact versions in `packaging/requirements-build.txt`.
 ## Reproduce the paper's statistics
 
 `code_release/` holds four standalone scripts that reproduce Figures 2–3 and
-Supplementary Tables 2–5 from the de-identified data deposited on OSF. See
-`code_release/README.md`.
+Supplementary Tables 2–5 from the paper's de-identified data, which are not
+public yet. See `code_release/README.md`.
 
 ## License
 

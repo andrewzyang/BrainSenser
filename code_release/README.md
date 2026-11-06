@@ -11,8 +11,8 @@ manuscript byte-identically from four de-identified CSV inputs.
 | `scripts/2_snapshot_5hz_classifier.py` | Strict leave-one-out classifier over 10 candidate 5-bin × 3-step frequency bands (5.31–37.5 Hz) with max-statistic permutation FWER null. Reproduces Supplementary Table 5 + Figure 2 d–i underlying numbers. |
 | `scripts/3_timeline_stats_cluster_permutation.py` | Cluster-based permutation peri-event analysis of BrainSense Timeline narrowband (5.31–10.31 Hz) amplitude. Reproduces Supplementary Table 3 + Figure 3 a–c underlying numbers. |
 | `scripts/4_timeline_amplitude_threshold_classifier.py` | L2 logistic regression amplitude-threshold classifier on Timeline µV with stratified bootstrap CIs and label-shuffle permutation null. Reproduces Supplementary Table 4 + Figure 3 d–i underlying numbers. |
-| `data/pt1_snapshots_native.csv`, `data/pt2_snapshots.csv` | Per-snapshot PSD bin amplitudes (`0.00Hz`…`97.02Hz` columns) and event metadata for the two participants (from the OSF deposit; see Inputs). |
-| `data/{pt1,pt2}_timeline.csv` | BrainSense Timeline narrowband amplitude stream for the two participants (from the OSF deposit). |
+| `data/pt1_snapshots_native.csv`, `data/pt2_snapshots.csv` | Per-snapshot PSD bin amplitudes (`0.00Hz`…`97.02Hz` columns) and event metadata for the two participants (not included; see Inputs). |
+| `data/{pt1,pt2}_timeline.csv` | BrainSense Timeline narrowband amplitude stream for the two participants (not included; see Inputs). |
 | `VALIDATION_TARGETS.md` | Locked manuscript values that the four scripts must reproduce. |
 | `requirements.txt` / `environment.yml` | Pinned dependency versions used to produce the manuscript values. |
 | `demo.sh` | Smallest viable reproduction — runs each script on the deposited CSVs and reports headline numbers. |
@@ -37,8 +37,8 @@ Each script is invocable independently with `--help` for argument documentation.
 
 The four CSV inputs are de-identified extracts of the two participants'
 BrainSense recordings, labelled `pt1` and `pt2` as in the paper, with all dates
-shifted. They are not part of this repository: download them from the OSF
-deposit named in the paper's Data Availability statement into `data/`.
+shifted. They are not part of this repository and are not public yet;
+`demo.sh` expects them in `data/`.
 
 **`{pt}_snapshots.csv`** (PSD bin amplitudes per Snapshot event):
 

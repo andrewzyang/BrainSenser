@@ -1,7 +1,7 @@
 # Validation targets — locked manuscript values
 
-The values the four scripts in `scripts/` reproduce from the four CSVs in the
-OSF deposit, byte-identically at the precision shown. `bash demo.sh` runs all
+The values the four scripts in `scripts/` reproduce from the four CSV
+inputs, byte-identically at the precision shown. `bash demo.sh` runs all
 four; each script fixes its own seeds and resampling counts (see its
 docstring).
 
