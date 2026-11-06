@@ -5,6 +5,26 @@
   </picture>
 </h1>
 
+<p align="center">
+  Compare Medtronic Percept BrainSense recordings between groups of patient-marked events.
+</p>
+
+<p align="center">
+  <a href="#download">Download</a>
+  &nbsp;·&nbsp;
+  <a href="#data-handling">Data handling</a>
+  &nbsp;·&nbsp;
+  <a href="#run-from-source">Run from source</a>
+  &nbsp;·&nbsp;
+  <a href="#reproduce-the-papers-statistics">Reproduce the paper</a>
+  &nbsp;·&nbsp;
+  <a href="#how-to-cite">Cite</a>
+</p>
+
+<p align="center">
+  <sub>macOS 14 or later (Apple silicon or Intel) &nbsp;·&nbsp; Windows 10 or 11, 64-bit &nbsp;·&nbsp; MIT License &nbsp;·&nbsp; research software</sub>
+</p>
+
 BrainSenser is a desktop app for accessibly analysing BrainSense recordings
 from Medtronic Percept deep brain stimulation devices: **Snapshots** (spectra
 captured when a patient marks an event) and the **Timeline** (the chronic
@@ -14,8 +34,9 @@ described in our paper (the citation will be added on publication): canonical
 band statistics, a leave-one-out frequency-band classifier, a cluster-based
 permutation test around events, and an amplitude-threshold classifier.
 
-BrainSenser is research software, not a medical device. It is not affiliated
-with Medtronic; BrainSense and Percept are Medtronic trademarks.
+> [!IMPORTANT]
+> BrainSenser is research software, not a medical device. It is not affiliated
+> with Medtronic; BrainSense and Percept are Medtronic trademarks.
 
 ## Download
 
@@ -38,7 +59,9 @@ The apps aren't code-signed yet, so the first launch needs one extra step:
   anyway**. On PCs with Smart App Control turned on, unsigned apps can't run
   at all.
 
-`HOW_TO_OPEN.txt`, inside every download, has the details.
+[`HOW_TO_OPEN.txt`](HOW_TO_OPEN.txt), inside every download, has the details.
+
+## Data handling
 
 BrainSenser ships with no patient data. Everything you import stays on your
 computer, in `~/Library/Application Support/BrainSenser` (macOS) or
@@ -59,28 +82,32 @@ From source, data goes to `~/.brainsense_data`; set `BRAINSENSER_DATA_DIR` to
 use another folder.
 
 Tests: `pip install pytest pytest-qt pytest-cov pytest-mock pytest-timeout`,
-then `pytest`. Tests listed in `tests/known_failures.txt` are reported as
-expected failures.
+then `pytest`. Tests listed in
+[`tests/known_failures.txt`](tests/known_failures.txt) are reported as expected
+failures.
 
 ## Build the downloads
 
-`packaging/REEXPORT.md` builds the two macOS installers;
-`.github/workflows/release.yml` builds the Windows zip. Release builds install
-the exact versions in `packaging/requirements-build.txt`.
+[`packaging/REEXPORT.md`](packaging/REEXPORT.md) builds the two macOS
+installers; [`.github/workflows/release.yml`](.github/workflows/release.yml)
+builds the Windows zip. Release builds install the exact versions in
+[`packaging/requirements-build.txt`](packaging/requirements-build.txt).
 
 ## Reproduce the paper's statistics
 
-`code_release/` holds four standalone scripts that reproduce Figures 2–3 and
-Supplementary Tables 2–5 from the paper's de-identified data, which are not
-public yet. See `code_release/README.md`.
+[`code_release/`](code_release) holds four standalone scripts that reproduce
+Figures 2–3 and Supplementary Tables 2–5 from the paper's de-identified data,
+which are not public yet. See
+[`code_release/README.md`](code_release/README.md).
 
 ## License
 
-BrainSenser is released under the MIT License (`LICENSE`). The downloads bundle
-third-party software under its own licenses, listed in
-`THIRD_PARTY_NOTICES.txt`. For the LGPL components (Qt, FFmpeg), that file links
-their source code, and each release page carries the matching FFmpeg source.
+BrainSenser is released under the MIT License ([`LICENSE`](LICENSE)). The
+downloads bundle third-party software under its own licenses, listed in
+[`THIRD_PARTY_NOTICES.txt`](THIRD_PARTY_NOTICES.txt). For the LGPL components
+(Qt, FFmpeg), that file links their source code, and each release page carries
+the matching FFmpeg source.
 
 ## How to cite
 
-See `CITATION.cff`, and please cite the paper as well.
+See [`CITATION.cff`](CITATION.cff), and please cite the paper as well.
