@@ -1,4 +1,9 @@
-# BrainSenser
+<h1 align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/andrewzyang/BrainSenser/main/docs/media/brainsenser_dark.gif">
+    <img src="https://raw.githubusercontent.com/andrewzyang/BrainSenser/main/docs/media/brainsenser_light.gif" alt="BrainSenser" width="600">
+  </picture>
+</h1>
 
 BrainSenser is a desktop app for analysing recordings from Medtronic Percept
 deep brain stimulation devices: BrainSense **Snapshots** (spectra captured when
